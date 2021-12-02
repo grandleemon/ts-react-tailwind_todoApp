@@ -1,29 +1,34 @@
 import React from 'react';
 import {useState} from 'react'
-import { Todo } from "./types/data"
+import { Todo } from "./types/Todo"
+import TodoList from "./components/TodoList";
 const App: React.FC = () => {
 
     const [value, setValue] = useState("");
     const [todos, setTodos] = useState<Todo[]>([])
 
+    const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+        setValue(e.target.value)
+    }
+
     const addTodo = () => {
-        setTodos([...todos, {
-            id: Date.now(),
-            title: value,
-            complete: false
-        }])
-        setValue('')
+        if(value){
+            setTodos([...todos, {
+                id: Date.now(),
+                title: value,
+                complete: false
+            }])
+            setValue('')
+        }
     }
 
     return (
         <div>
             <div>
-                <input type="text" onChange={(e => setValue(e.target.value))} value={value}/>
+                <input type="text" onChange={handleChange} value={value}/>
                 <button onClick={addTodo}> Add </button>
             </div>
-            {todos.map((todo) => {
-                return <div>{todo.title}</div>
-            })}
+            <TodoList items={todos} />
         </div>
     );
 };
