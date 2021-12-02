@@ -23,6 +23,10 @@ const App: React.FC = () => {
         }
     }
 
+    const handleKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if(e.key === 'Enter') addTodo()
+    }
+
     useEffect( () => {
         if(inputRef.current) inputRef.current.focus()
 
@@ -31,7 +35,7 @@ const App: React.FC = () => {
     return (
         <div>
             <div>
-                <input type="text" onChange={handleChange} value={value} ref={inputRef}/>
+                <input type="text" onChange={handleChange} value={value} ref={inputRef} onKeyDown={handleKeyDown}/>
                 <button onClick={addTodo}> Add </button>
             </div>
             <TodoList items={todos} />
